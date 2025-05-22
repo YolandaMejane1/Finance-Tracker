@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finance Tracker</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 700px;
+            margin: auto;
+            padding: 2rem;
+            background-color: #f7f9fc;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 5px #ccc;
+        }
+        label, input, select {
+            display: block;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+        input[type=submit] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+        .summary {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #e0f7fa;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>My Finance Tracker</h1>
+
+    <div class="summary">
+        <p><strong>Total Income:</strong> R{{ total_income }}</p>
+        <p><strong>Total Expenses:</strong> R{{ total_expenses }}</p>
+        <p><strong>Balance:</strong> R{{ balance }}</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <h2>Add Income</h2>
+        {{ income_form.as_p }}
+        <input type="submit" name="add_income" value="Add Income">
+    </form>
+
+    <form method="post">
+        {% csrf_token %}
+        <h2>Add Expense</h2>
+        {{ expense_form.as_p }}
+        <input type="submit" name="add_expense" value="Add Expense">
+    </form>
+
+    <h2>Income Entries</h2>
+    <ul>
+        {% for income in incomes %}
+        <li>{{ income.source }} - R{{ income.amount }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Expense Entries</h2>
+    <ul>
+        {% for expense in expenses %}
+        <li>{{ expense.description }} ({{ expense.category }}) - R{{ expense.amount }}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
